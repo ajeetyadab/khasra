@@ -1,4 +1,6 @@
 *.log
 node_modules/
 temp/
-.env
+venv/
+chromedriver.exe
+geckodriver.exe
