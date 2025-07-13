@@ -29,7 +29,7 @@ file1="C:/Users/hp/Desktop/khasra_1430.xlsx"
 file2="C:/Users/hp/Desktop/data.xlsx"
 workbook1=openpyxl.load_workbook(file1)
 workbook2=openpyxl.load_workbook(file2)
-sheet1=workbook1["mpuse_1430"]
+sheet1=workbook1["gammanpura_1430"]
 sheet2=workbook2["credentials"]
 
 row_count=sheet1.max_row
@@ -137,16 +137,16 @@ def login_page():
     #driver.find_element(By.ID, "CaptchaInput").send_keys(captcha_value)
     print(driver.find_element(By.ID,"captcha").text)
     driver.find_element(By.ID, "password").send_keys(pass_word)
-    time.sleep(10)
+    input("enter captcha")
     driver.find_element(By.XPATH,"/html/body/app-root/login/div/div/div/form/div[6]/button").click()
     time.sleep(2)
 
 def load_third_page():
     Select(driver.find_element(By.XPATH,"//*[@id=\"fasalYear\"]")).select_by_visible_text("1432 (1 जुलाई 2024 से 30 जून 2025)")
     time.sleep(1)
-    Select(driver.find_element(By.XPATH,"//*[@id=\"myFasal\"]")).select_by_index(2)
+    Select(driver.find_element(By.XPATH,"//*[@id=\"myFasal\"]")).select_by_index(3)
     time.sleep(1)
-    Select(driver.find_element(By.XPATH,"//*[@id=\"gram_name\"]")).select_by_index(6)
+    Select(driver.find_element(By.XPATH,"//*[@id=\"gram_name\"]")).select_by_index(3)
     time.sleep(3)
     driver.find_element(By.XPATH,"/html/body/app-root/lekhpalhome/div[3]/div[2]/div/div/form/div[4]/button").click()
     
@@ -169,7 +169,7 @@ def feeding():
     time.sleep(.5)
     time.sleep(.5)
     driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button").click()
-    time.sleep(.5)
+    time.sleep(1)
     
     driver.find_element(By.XPATH,"//*[@id=\"option1\"]").click()
     # gata_properties
@@ -259,11 +259,38 @@ def feeding():
         
 
     if agri_nonagri[attribute_index] == "अकृषक/Non Agricultural"  and gata_area[attribute_index] == float(temp_gata_area):
-        input("enter manually")
+        input("select manually")
+        time.sleep(.4)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[3]/input").send_keys(gata_area[attribute_index])
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
+        time.sleep(.5)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/div[1]/div/div/button").click()
+        time.sleep(.5)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button[2]").click()
+        time.sleep(2)
+        driver.find_element(By.XPATH,"/html/body/div[3]/div/div[6]/button[1]").click()
 
 
     if agri_nonagri[attribute_index] == "आकृषित/Fallow Land"  and gata_area[attribute_index] == float(temp_gata_area):
-        input("feed manually as fallow land")
+        #input("feed manually as fallow land")
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[1]/div/button").click()
+        time.sleep(2)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalinsertfallow/div/form/div[2]/input").clear()
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalinsertfallow/div/form/div[2]/input").send_keys(gata_area[attribute_index])
+        time.sleep(1)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalinsertfallow/div/form/div[3]/div/button").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalinsertfallow/div/div[1]/div/div/button").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/div[1]/div[3]/button").click()
+        time.sleep(1)
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button[2]").click()
+        time.sleep(2)
+        driver.find_element(By.XPATH,"/html/body/div[3]/div/div[6]/button[1]").click()
+        
+        
         
 
 
