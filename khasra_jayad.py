@@ -161,6 +161,8 @@ def fourth_page():
 def gata_display():
     time.sleep(1)
     driver.find_element(By.XPATH,"/html/body/app-root/lekhpalgatalist/div[1]/div[3]/table/tbody/tr[1]/td[5]/button").click()
+           
+    
     
        
 
@@ -168,8 +170,11 @@ def gata_display():
 
 def feeding():
     akrishak_selection_index = ""
-
-    driver.find_element(By.XPATH,"/html/body/app-root/lekhpalgatalist/div[2]/div/div/div[2]/div/div[5]/div[2]/button").click()
+    try:
+     driver.find_element(By.XPATH,"/html/body/app-root/lekhpalgatalist/div[2]/div/div/div[2]/div/div[5]/div[2]/button").click()
+     
+    except:
+        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalgatalist/div[2]/div/div/div[2]/div/div[4]/div[2]/button").click()
     #-----gata vivran
     time.sleep(.5)
     time.sleep(.5)
