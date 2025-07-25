@@ -29,10 +29,10 @@ file1="C:/Users/hp/Desktop/khasra_1430.xlsx"
 file2="C:/Users/hp/Desktop/data.xlsx"
 workbook1=openpyxl.load_workbook(file1)
 workbook2=openpyxl.load_workbook(file2)
-sheet1=workbook1["gammanpura_1430"]
+sheet1=workbook1["rajpura_1430"] # select village from excel sheet
 sheet2=workbook2["credentials"]
 
-row_count=sheet1.max_row
+row_count=sheet1.max_row+1
 col_count=sheet1.max_column
 # print(row_count)
 # print(col_count)
@@ -44,7 +44,7 @@ raw_gata_id = [sheet1.cell(i,2).value for i in range (3,row_count)] # gata id co
 gata_id = list(map(lambda x:x.strip('\xa0'),raw_gata_id))
 
 # fasal=[sheet1.cell(i,11).value for i in range (3,row_count)]
-fasal = list(map(lambda i: sheet1.cell(i, 11).value, range(3, row_count)))
+fasal = list(map(lambda i: sheet1.cell(i, 16).value, range(3, row_count)))
 print(fasal)
 
 
@@ -56,13 +56,15 @@ agri_nonagri =[]
 vivran = []
 gata_area = []
 temp_gata_list = []
+gata_name = []
 for i in range(3,row_count):
-    fasal.append(sheet1.cell(i,11).value)
+    fasal.append(sheet1.cell(i,16).value)
     boring_type.append(sheet1.cell(i,10).value)
     gata_area.append(sheet1.cell(i,3).value)
     agri_nonagri.append(sheet1.cell(i,21).value)
     vivran.append(sheet1.cell(i,22).value)
-print(len(gata))
+    gata_name.append(sheet1.cell(i,5).value)
+print(gata_name)
 print(gata_area)
 
 
@@ -146,7 +148,7 @@ def load_third_page():
     time.sleep(1)
     Select(driver.find_element(By.XPATH,"//*[@id=\"myFasal\"]")).select_by_index(3)
     time.sleep(1)
-    Select(driver.find_element(By.XPATH,"//*[@id=\"gram_name\"]")).select_by_index(3)
+    Select(driver.find_element(By.XPATH,"//*[@id=\"gram_name\"]")).select_by_index(2) # enter index of village name 
     time.sleep(3)
     driver.find_element(By.XPATH,"/html/body/app-root/lekhpalhome/div[3]/div[2]/div/div/form/div[4]/button").click()
     
@@ -159,6 +161,7 @@ def fourth_page():
 def gata_display():
     time.sleep(1)
     driver.find_element(By.XPATH,"/html/body/app-root/lekhpalgatalist/div[1]/div[3]/table/tbody/tr[1]/td[5]/button").click()
+    
        
 
             
@@ -201,6 +204,7 @@ def feeding():
     #fasal vivran
     if agri_nonagri[attribute_index] == "कृषित" and gata_area[attribute_index] == float(temp_gata_area):
         # akrishak vivran
+        time.sleep(1.5)
         driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
         time.sleep(1)
         driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[1]/div/button").click()
@@ -259,20 +263,52 @@ def feeding():
         
 
     if agri_nonagri[attribute_index] == "अकृषक/Non Agricultural"  and gata_area[attribute_index] == float(temp_gata_area):
-        input("select manually")
-        time.sleep(.4)
-        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[3]/input").send_keys(gata_area[attribute_index])
-        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
-        time.sleep(.5)
-        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/div[1]/div/div/button").click()
-        time.sleep(.5)
-        driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button[2]").click()
-        time.sleep(2)
-        driver.find_element(By.XPATH,"/html/body/div[3]/div/div[6]/button[1]").click()
+        time.sleep(1.5)
+        
+        if gata_name[attribute_index] == " रास्ता" or gata_name[attribute_index] == " चकमार्ग":
+            Select(driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[1]/select")).select_by_value("28")
+            time.sleep(1)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[3]/input").send_keys(gata_area[attribute_index])
+            time.sleep(1)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
+            time.sleep(.5)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/div[1]/div/div/button").click()
+            time.sleep(.5)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button[2]").click()
+            time.sleep(2)
+            driver.find_element(By.XPATH,"/html/body/div[3]/div/div[6]/button[1]").click()
+            
+        elif  gata_name[attribute_index] == " गूल" or gata_name[attribute_index] == " नदी" or gata_name[attribute_index] == " तालाब":
+            Select(driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[1]/select")).select_by_value("17")
+            time.sleep(1)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[3]/input").send_keys(gata_area[attribute_index])
+            time.sleep(1)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
+            time.sleep(.5)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/div[1]/div/div/button").click()
+            time.sleep(.5)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button[2]").click()
+            time.sleep(2)
+            driver.find_element(By.XPATH,"/html/body/div[3]/div/div[6]/button[1]").click()
+            
+        else:            
+            
+            input("select manually")
+            time.sleep(1)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[3]/input").send_keys(gata_area[attribute_index])
+            time.sleep(1)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
+            time.sleep(.5)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/div[1]/div/div/button").click()
+            time.sleep(.5)
+            driver.find_element(By.XPATH,"/html/body/app-root/lekhpalownerdetails/div/div[3]/div/div[2]/button[2]").click()
+            time.sleep(2)
+            driver.find_element(By.XPATH,"/html/body/div[3]/div/div[6]/button[1]").click()
 
 
     if agri_nonagri[attribute_index] == "आकृषित/Fallow Land"  and gata_area[attribute_index] == float(temp_gata_area):
         #input("feed manually as fallow land")
+        time.sleep(1.5)
         driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[4]/div/button").click()
         time.sleep(1)
         driver.find_element(By.XPATH,"/html/body/app-root/lekhpalcroppingpattern/div/form/div[1]/div/button").click()
@@ -300,11 +336,13 @@ load_first_page()
 login_page()
 load_third_page()
 fourth_page()
+
 while True:
     try:
         gata_display()
         feeding()
     except Exception as e:
         print(f"error occured:{e}")
+        input("please correct error")
 
 
